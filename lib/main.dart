@@ -55,32 +55,39 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocBuilder<InternetCheckCubit, bool>(
-        bloc: internetCheckCubit,
-        builder: (context, state) {
-          if (state) {
-            return Center(
-              child: Text(
-                'You connected to network',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4!
-                    .apply(color: Colors.green),
-                textAlign: TextAlign.center,
-              ),
+      body: RefreshIndicator(
+        onRefresh: () => internetCheckCubit.checkNetwork(),
+        child: BlocBuilder<InternetCheckCubit, bool>(
+          bloc: internetCheckCubit,
+          builder: (context, state) {
+            if (state) {
+              return ListView(
+                children: [
+                  Text(
+                    'You connected to network',
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline4!
+                        .apply(color: Colors.green),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              );
+            }
+            return ListView(
+              children: [
+                Text(
+                  'No Internet connected pleas check internet connection and tyr again',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6!
+                      .apply(color: Colors.red),
+                  textAlign: TextAlign.center,
+                )
+              ],
             );
-          }
-          return Center(
-            child: Text(
-              'No Internet connected pleas check internet connection and tyr again',
-              style: Theme.of(context)
-                  .textTheme
-                  .headline6!
-                  .apply(color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

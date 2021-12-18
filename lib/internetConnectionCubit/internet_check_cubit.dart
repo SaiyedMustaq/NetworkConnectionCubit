@@ -12,7 +12,7 @@ class InternetCheckCubit extends Bloc<InternetCheckState, bool> {
   // {
   //   on<InternetCheckingSate>((event, emit) => emit(false));
   // }
-  void checkNetwork() async {
+  Future checkNetwork() async {
     emit(await connectionRepos.checkConnection());
   }
 }
